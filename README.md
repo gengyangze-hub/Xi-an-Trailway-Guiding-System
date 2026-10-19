@@ -2,6 +2,12 @@
 
 一款以单文件离线使用为主的西安地铁导航应用。直接双击 `index.html` 即可使用；需要联网同步官方线路与站序时，运行同目录的轻量同步服务。
 
+[![在线访问](https://img.shields.io/website?url=https%3A%2F%2Fgengyangze-hub.github.io%2FXi-an-Trailway-Guiding-System%2F&label=%E5%9C%A8%E7%BA%BF%E8%AE%BF%E9%97%AE&up_message=online&down_message=offline)](https://gengyangze-hub.github.io/Xi-an-Trailway-Guiding-System/) [![仓库](https://img.shields.io/badge/GitHub-gengyangze--hub%2FXi--an--Trailway--Guiding--System-181717?logo=github)](https://github.com/gengyangze-hub/Xi-an-Trailway-Guiding-System)
+
+- **🌐 在线版（推荐）**：<https://gengyangze-hub.github.io/Xi-an-Trailway-Guiding-System/>
+  已部署在 GitHub Pages，点开即用、无需安装，手机也能直接访问。
+- **💻 离线版**：双击根目录的 `index.html`，单文件、零依赖，断网可用。
+
 ![桌面端预览](preview-desktop.png)
 
 ## 功能
@@ -18,7 +24,9 @@
 
 ## 使用
 
-直接打开 `index.html`。推荐 Chrome / Edge / Safari 新版本。
+**方式一（在线）**：直接打开 <https://gengyangze-hub.github.io/Xi-an-Trailway-Guiding-System/>，无需安装任何东西。
+
+**方式二（本地离线）**：双击 `index.html`。推荐 Chrome / Edge / Safari 新版本。
 
 初始示例路线为「北大街 → 大雁塔」。你可以：
 
@@ -51,7 +59,7 @@ python sync_server.py
 
 ### ⚠️ 纯静态托管（GitHub Pages）上的同步不准确
 
-GitHub Pages、Vercel 静态托管、对象存储等平台**只有静态文件、没有后端**，`/api/sync-network` 并不存在，因此：
+GitHub Pages、Vercel 静态托管、对象存储等平台**只有静态文件、没有后端**，`/api/sync-network` 并不存在，因此（本仓库的在线版正是部署在 GitHub Pages：<https://gengyangze-hub.github.io/Xi-an-Trailway-Guiding-System/>）：
 
 - 点击「实时同步」**不会真正联网抓取官网数据**，而是回退读取仓库里提交的 `network-sync.json` 快照。界面仍可能提示「已是最新线网」，但**这只是构建时的快照，不代表官网当前线网**。
 - 线路新增/延伸、站序调整、新站开通、临时封站等信息在静态站点上**不会自动更新**；更新方式是重新运行 `sync_server.py` 生成新快照 → 提交 → 重新部署。
