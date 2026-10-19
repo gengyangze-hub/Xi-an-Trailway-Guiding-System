@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f7f2">
+  <meta name="description" content="西安地铁线网导航：路线规划、单线探索、换乘查询与模拟实时到站。">
+  <link rel="icon" href="__LOGO_DATA__" type="image/png">
+  <link rel="apple-touch-icon" href="__LOGO_DATA__">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>西安地铁 · 线网导航</title>
+  <style>/*__STYLES__*/</style>
+</head>
+<body>
+  <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-train" viewBox="0 0 24 24">
+      <rect x="5.5" y="3" width="13" height="14" rx="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M8.5 7h7M8.5 10.5h7M8 17l-1.4 3M16 17l1.4 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="9.2" cy="14" r=".9" fill="currentColor"/><circle cx="14.8" cy="14" r=".9" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-route" viewBox="0 0 24 24">
+      <circle cx="6" cy="5.5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <circle cx="18" cy="18.5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M6 8v5.2a3 3 0 0 0 3 3h2.6a3 3 0 0 1 3 3v-.2a3 3 0 0 1 3-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="2.4 3"/>
+    </symbol>
+    <symbol id="i-map" viewBox="0 0 24 24">
+      <path d="M3.8 6.2 9 4l6 2.2L20.2 4v13.8L15 20l-6-2.2L3.8 20V6.2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M9 4v13.8M15 6.2V20" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M12 7.3v5.1l3.1 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24">
+      <path d="M8 4.5v14M4.7 15.3 8 18.6l3.3-3.3M16 19.5v-14M12.7 8.7 16 5.4l3.3 3.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24">
+      <path d="M4.5 12h14M13 6.5l5.5 5.5L13 17.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24">
+      <path d="m7 14.5 5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24">
+      <path d="m6.5 6.5 11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="10.7" cy="10.7" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="m15.3 15.3 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-transfer" viewBox="0 0 24 24">
+      <path d="M4 8h13M13.5 4.5 17 8l-3.5 3.5M20 16H7M10.5 12.5 7 16l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M12 21s6.5-6.1 6.5-11A6.5 6.5 0 0 0 5.5 10c0 4.9 6.5 11 6.5 11Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M12 11v5M12 7.7v.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-locate" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M12 2.8v3.4M12 17.8v3.4M2.8 12h3.4M17.8 12h3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-fit" viewBox="0 0 24 24">
+      <path d="M9 3.5H3.5V9M15 3.5h5.5V9M20.5 15v5.5H15M9 20.5H3.5V15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-sync" viewBox="0 0 24 24">
+      <path d="M20 11a8 8 0 0 0-14.2-4.4L4 8.5M4 4.5v4h4M4 13a8 8 0 0 0 14.2 4.4L20 15.5M20 19.5v-4h-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-walk" viewBox="0 0 24 24">
+      <circle cx="13" cy="4.3" r="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="m11.4 9.3-2.8 4.2 2.9 2.2-1.8 4.1M11.4 9.3l3.3 1.3 2.1 3.1M11.5 15.7l3.1 4.1M11.5 15.7l-3.7 1.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24">
+      <path d="m12 3.8 8 4.3-8 4.3-8-4.3 8-4.3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="m4 12 8 4.3 8-4.3M4 15.9l8 4.3 8-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"><img class="brand-logo" src="__LOGO_DATA__" alt="西安地铁标志"></div>
+        <div class="brand-copy">
+          <div class="brand-title">西安地铁</div>
+          <div class="brand-sub">XI'AN METRO · 线网导航</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="network-stat"><strong id="statLines">12</strong> 条线路 <i></i> <strong id="statStations">247</strong> 座车站</div>
+        <button class="sync-btn" id="syncBtn" type="button" aria-label="联网同步西安地铁最新线网与站序" title="联网同步西安地铁官网最新线网与站序">
+          <svg class="ic"><use href="#i-sync"></use></svg><span class="sync-label">实时同步</span>
+        </button>
+        <div class="live-pill" title="到站时间按运行图与北京时间推算，并非官方实时数据">
+          <span class="live-dot"></span><span class="live-label">模拟实时</span><span class="live-label-short">模拟</span><time id="topClock">--:--:--</time>
+        </div>
+        <button class="icon-btn" id="helpBtn" type="button" aria-label="使用说明">
+          <svg class="ic"><use href="#i-info"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="side-panel" id="sidePanel">
+        <div class="sheet-bar" id="sheetBar">
+          <span class="sheet-grip"></span>
+          <button class="sheet-toggle" id="sheetToggle" type="button" aria-label="收起或展开面板">
+            <svg class="ic"><use href="#i-chevron"></use></svg>
+          </button>
+        </div>
+        <nav class="tabs" id="tabs" role="tablist" aria-label="功能导航">
+          <button class="tab is-active" data-tab="route" type="button" role="tab" aria-selected="true">
+            <svg class="ic"><use href="#i-route"></use></svg><span>路线规划</span>
+          </button>
+          <button class="tab" data-tab="explore" type="button" role="tab" aria-selected="false">
+            <svg class="ic"><use href="#i-map"></use></svg><span>线路探索</span>
+          </button>
+          <button class="tab" data-tab="live" type="button" role="tab" aria-selected="false">
+            <svg class="ic"><use href="#i-clock"></use></svg><span>实时到站</span>
+          </button>
+        </nav>
+
+        <div class="panel-scroll" id="panelScroll">
+          <section class="panel-view is-active" id="view-route" role="tabpanel">
+            <div class="view-head">
+              <div>
+                <div class="eyebrow">TRIP PLANNER</div>
+                <h1>去哪儿？</h1>
+              </div>
+              <span class="head-chip">智能规划</span>
+            </div>
+            <p class="view-intro">输入起点与终点，自动比较时间与换乘次数。</p>
+
+            <form id="routeForm" autocomplete="off">
+              <div class="od-card">
+                <div class="od-row" data-field="from">
+                  <span class="od-dot is-origin"></span>
+                  <label class="od-field">
+                    <span class="od-label">起点</span>
+                    <input id="fromInput" type="text" placeholder="搜索车站" aria-label="起点车站" spellcheck="false">
+                  </label>
+                  <button class="od-clear" type="button" data-clear="from" aria-label="清空起点"><svg class="ic"><use href="#i-close"></use></svg></button>
+                </div>
+                <div class="od-row" data-field="to">
+                  <span class="od-dot is-dest"></span>
+                  <label class="od-field">
+                    <span class="od-label">终点</span>
+                    <input id="toInput" type="text" placeholder="搜索车站" aria-label="终点车站" spellcheck="false">
+                  </label>
+                  <button class="od-clear" type="button" data-clear="to" aria-label="清空终点"><svg class="ic"><use href="#i-close"></use></svg></button>
+                </div>
+                <button class="swap-btn" id="swapBtn" type="button" aria-label="交换起点与终点">
+                  <svg class="ic"><use href="#i-swap"></use></svg>
+                </button>
+                <div class="suggest-pop" id="stationSuggest" hidden></div>
+              </div>
+              <button class="primary-btn" type="submit" id="planBtn">
+                <span>生成导航路线</span><svg class="ic"><use href="#i-arrow"></use></svg>
+              </button>
+            </form>
+            <div class="feedback" id="routeFeedback" hidden></div>
+            <div id="routeResult"></div>
+            <div class="welcome" id="routeWelcome">
+              <div class="welcome-head"><span class="eyebrow">QUICK START</span><span>试试这些路线</span></div>
+              <button class="example-route" type="button" data-from="北大街" data-to="大雁塔">
+                <span class="example-od"><i class="mini-dot" style="background:#FC0601"></i>北大街 <b>→</b> <i class="mini-dot" style="background:#B97CAF"></i>大雁塔</span>
+                <span class="example-tag">钟楼商圈 · 曲江</span>
+              </button>
+              <button class="example-route" type="button" data-from="纺织城" data-to="西安北站">
+                <span class="example-od"><i class="mini-dot" style="background:#01A2E2"></i>纺织城 <b>→</b> <i class="mini-dot" style="background:#FC0601"></i>西安北站</span>
+                <span class="example-tag">跨城 · 高铁接驳</span>
+              </button>
+              <button class="example-route" type="button" data-from="钟楼" data-to="秦陵西">
+                <span class="example-od"><i class="mini-dot" style="background:#786DAF"></i>钟楼 <b>→</b> <i class="mini-dot" style="background:#EE782E"></i>秦陵西</span>
+                <span class="example-tag">临潼 · 华清池</span>
+              </button>
+              <button class="example-route" type="button" data-from="电视塔" data-to="余家寨">
+                <span class="example-od"><i class="mini-dot" style="background:#FC0601"></i>电视塔 <b>→</b> <i class="mini-dot" style="background:#FFA500"></i>余家寨</span>
+                <span class="example-tag">最快 / 少换乘</span>
+              </button>
+            </div>
+            <div class="source-note">
+              <svg class="ic"><use href="#i-info"></use></svg>
+              <span>线网数据时点 <b id="dataNoteDate">2026.10</b>，覆盖当前运营线路。时间为运行图估算，实际以车站公告为准。</span>
+            </div>
+          </section>
+
+          <section class="panel-view" id="view-explore" role="tabpanel" hidden>
+            <div class="view-head">
+              <div>
+                <div class="eyebrow">NETWORK EXPLORER</div>
+                <h1>线路探索</h1>
+              </div>
+              <button class="text-btn" id="exploreAll" type="button">查看全网</button>
+            </div>
+            <p class="view-intro">点选一条线路沿线下钻。在换乘站可选择相接线路，直接切换高亮。</p>
+            <div id="lineGrid" class="line-grid"></div>
+            <div id="lineDetail" hidden></div>
+          </section>
+
+          <section class="panel-view" id="view-live" role="tabpanel" hidden>
+            <div class="view-head">
+              <div>
+                <div class="eyebrow">LIVE ARRIVALS</div>
+                <h1>实时到站</h1>
+              </div>
+              <span class="live-badge"><span class="live-dot"></span>模拟</span>
+            </div>
+            <p class="view-intro">按运行图与当前北京时间推算，秒级刷新。选择车站查看下一班。</p>
+            <div class="live-search-wrap">
+              <svg class="ic live-search-icon"><use href="#i-search"></use></svg>
+              <input id="liveSearch" type="text" placeholder="输入车站名，如 小寨" aria-label="搜索实时到站车站" autocomplete="off" spellcheck="false">
+              <div class="suggest-pop live-suggest" id="liveSuggest" hidden></div>
+            </div>
+            <div id="liveContent"></div>
+          </section>
+        </div>
+      </aside>
+
+      <section class="map-shell" id="mapShell">
+        <div class="map-head">
+          <div class="map-heading">
+            <div class="eyebrow" id="mapMeta">NETWORK MAP · 2026.10</div>
+            <h2 id="mapTitle">西安轨道交通线网</h2>
+            <p id="mapSubtitle">12 条线路 · 247 座车站 · 点击线路进入详情</p>
+          </div>
+          <div class="map-controls">
+            <button class="tool-btn" id="locateBtn" type="button" aria-label="定位我的位置" title="定位我的位置">
+              <svg class="ic"><use href="#i-locate"></use></svg><span>定位</span>
+            </button>
+            <button class="tool-btn" id="labelBtn" type="button" aria-pressed="false" aria-label="显示或隐藏全部站名" title="显示或隐藏全部站名">
+              <svg class="ic"><use href="#i-layers"></use></svg><span>站名</span>
+            </button>
+            <button class="tool-btn" id="fitBtn" type="button" aria-label="缩放至当前视图" title="缩放至当前视图">
+              <svg class="ic"><use href="#i-fit"></use></svg><span>适配</span>
+            </button>
+            <div class="zoom-group">
+              <button type="button" id="zoomOut" aria-label="缩小">−</button>
+              <button type="button" id="zoomIn" aria-label="放大">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-canvas" id="mapCanvas">
+          <svg id="metroSvg" xmlns="http://www.w3.org/2000/svg" aria-label="西安地铁线网图" role="img">
+            <g id="mapRoot">
+              <g id="contextLayer"></g>
+              <g id="lineLayer"></g>
+              <g id="routeLayer"></g>
+              <g id="userLayer"></g>
+              <g id="stationLayer"></g>
+              <g id="labelLayer"></g>
+              <g id="markerLayer"></g>
+            </g>
+          </svg>
+          <div class="map-tooltip" id="mapTooltip" hidden></div>
+          <div class="map-compass" aria-hidden="true"><span>N</span><i></i></div>
+          <div class="map-legend" aria-hidden="true">
+            <span><i class="legend-station"></i>车站</span>
+            <span><i class="legend-transfer"></i>换乘站</span>
+          </div>
+          <div class="map-scale" id="mapScale" aria-hidden="true"><i></i><span>5 km</span></div>
+        </div>
+
+        <div class="nearby-card" id="nearbyCard" hidden></div>
+
+        <div class="line-ribbon" id="lineRibbonWrap">
+          <button class="ribbon-all is-active" id="allLinesBtn" type="button"><span>全网</span></button>
+          <div class="ribbon-divider"></div>
+          <div class="ribbon-scroll" id="lineRibbon"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="helpModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <div class="modal-head">
+        <div><div class="eyebrow">GUIDE</div><h2 id="helpTitle">怎么使用</h2></div>
+        <button class="icon-btn" type="button" data-close-modal aria-label="关闭"><svg class="ic"><use href="#i-close"></use></svg></button>
+      </div>
+      <div class="modal-body">
+        <div class="help-item"><span class="help-num">01</span><div><strong>路线规划</strong><p>输入起点与终点，生成最快与少换乘方案；预计用时包含候车与换乘步行。</p></div></div>
+        <div class="help-item"><span class="help-num">02</span><div><strong>线路探索</strong><p>点击地图线路直接进入线路详情并高亮整条线路；在换乘站点击其他线路即可跳转。双击地图不会选中文字或触发缩放。</p></div></div>
+        <div class="help-item"><span class="help-num">03</span><div><strong>实时到站</strong><p>点击任意车站查看两个方向的下一班。当前为运行图模拟，按北京时间每秒刷新，非官方实时数据。</p></div></div>
+        <div class="help-item"><span class="help-num">04</span><div><strong>定位与入站口</strong><p>点击地图右上角定位按钮，授权浏览器位置后显示最近入站口、直线距离与步行估算；位置只在本地参与计算。精确出入口可跳转百度地图查看。</p></div></div>
+        <div class="help-item"><span class="help-num">05</span><div><strong>联网同步</strong><p>先运行 sync_server.py，再点击顶部「实时同步」，会从西安地铁官网读取最新线路与站序，并更新到站顺序。服务未启动时回退到本地缓存或内置线网。</p></div></div>
+        <div class="help-item"><span class="help-num">06</span><div><strong>地图操作</strong><p>滚轮或双指缩放，拖拽平移；双击空白处放大。移动端可收起底部面板查看完整线网。</p></div></div>
+        <div class="help-note">线网站序与坐标整理自公开渠道，数据时点 2026.10.19；覆盖 1、2、3、4、5、6、8、9、10、14、15、16 号线。票价按西安地铁里程计价规则估算。最近入站口按车站中心点直线距离估算，出入口开放情况以现场为准。</div>
+      </div>
+    </div>
+  </div>
+
+  <script>window.METRO_NETWORK = /*__NETWORK__*/;</script>
+  <script>/*__CORE__*/</script>
+  <script>/*__APP__*/</script>
+</body>
+</html>
